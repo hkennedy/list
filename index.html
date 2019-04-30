@@ -1,0 +1,46 @@
+<html>
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans">
+    <link rel="stylesheet" type="text/css" href="./index.css">
+    <title>List App</title>
+</head>
+
+<body>
+    <div class="controller">
+        <input type="text" id="new_list" placeholder="Create a new list."/>
+        <button type="button" id="add_btn">+</button>
+    </div>
+    <div class="tab" id="tabs">
+    </div>
+
+    <script type="module">
+        import { Tab } from './Tab.js';
+        //Handle creating new list
+        $(function () {
+            $("#new_list").keyup(function (event) {
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                    document.getElementById("add_btn").click();
+                }
+            });
+
+            $("#add_btn").on("click", function () {
+                let item = $.trim($("#new_list").val());
+                $("#new_list").val("");
+                if (item == "") {
+                    return;
+                }
+
+                //Create a new tab
+                new Tab($("#tabs"), item);
+            });
+        });
+    </script>
+</body>
+
+</html>

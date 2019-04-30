@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans">
+    <link rel="stylesheet" type="text/css" href="./list.css">
+    <title>List</title>
+</head>
+
+<body>
+    <input type="text" id="new_item" placeholder="Create new list item."/>
+    <button type="button" id="add_btn">Add</button>
+    <ul id="list">
+    </ul>
+
+    <script type="module">
+        import { ListItem } from './ListItem.js';
+        //Makes list items drag-and-droppable
+        $(function () {
+            $("#list").sortable({
+                start: function (e, ui) {
+                    ui.item.css('opacity', '.4');
+                },
+                stop: function (e, ui) {
+                    ui.item.css('opacity', '1');
+                }
+            }).disableSelection();
+        });
+
+        //Create new list item
+        $(function () {
+            $("#new_item").keyup(function (event) {
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                    document.getElementById("add_btn").click();
+                }
+            });
+
+            $("#add_btn").on("click", function () {
+                let item = $.trim($("#new_item").val());
+                $("#new_item").val("");
+                if (item == "") {
+                    return;
+                }
+
+                new ListItem(item);
+            });
+        });
+    </script>
+</body>
+
+</html>
